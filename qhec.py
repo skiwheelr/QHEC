@@ -20,38 +20,56 @@ driver.set_window_size(1570, 882)
 # Test name: search4qhec
 # Step # | name | target | value
 driver.get("https://potomac.buildingperformance.com/Account/LogOn?returnUrl=%2F")
-inputElement1 = driver.find_element_by_id("username").send_keys('melissap0303@gmail.com')
-inputElement2 = driver.find_element_by_id("password").send_keys('')
-driver.find_element_by_id("loginSubmit").click()
-driver.find_element_by_link_text("Create Job and Validate Customer").click()
+inputElement1 = driver.find_element(By.ID,"username").send_keys('melissap0303@gmail.com')
+inputElement2 = driver.find_element(By.ID,"password").send_keys('Reddz123')
+driver.find_element(By.ID,"loginSubmit").click()
+driver.find_element(By.LINK_TEXT,"Create Job and Validate Customer").click()
 
-file = open(os.path.join('./', 'potomac.csv'), "rU")
+file = open(os.path.join('./', 'potomac.csv'), "r")
 reader = csv.reader(file, delimiter=',')
-for row in reader:
-    # print(row[0])
-    # print(row[1])
-    numElement = driver.find_element_by_id("SERV_ADDR_HOUSE_NUM")
-    numElement.clear()
-    numElement.send_keys(row[0])
+with open('results.csv', 'a', newline='') as f_object:  
+    writero = csv.writer(f_object, delimiter=',')
 
-    addrElement = driver.find_element_by_id("SERV_ADDR_STREET_NAME")
-    addrElement.clear()
-    addrElement.send_keys(row[1])
-    driver.find_element_by_css_selector(".c-btn").click()
+    for row in reader:
+        # print(row[0])
+        # print(row[1])
+        numElement = driver.find_element(By.ID,"SERV_ADDR_HOUSE_NUM")
+        numElement.clear()
+        numElement.send_keys(row[0])
+
+        addrElement = driver.find_element(By.ID,"SERV_ADDR_STREET_NAME")
+        addrElement.clear()
+        addrElement.send_keys(row[1])
+        driver.find_element(By.CSS_SELECTOR,".c-btn").click()
+        
+        try:
+            isqhec = driver.find_element(By.CSS_SELECTOR, ".even:nth-child(12) > td").text
+            if isqhec == "":
+                print("Good2Call")
+
+            else:
+                print(isqhec)
+                driver.find_element(By.ID, "WorkflowType").click()
+                dropdown =  driver.find_element(By.ID, "WorkflowType")
+                dropdown.find_element(By.XPATH, "//option[. = 'FEMD-QHEC']").click()
+                driver.find_element(By.CSS_SELECTOR, ".c-btn:nth-child(4)").click()
+
+                location =  driver.find_element(By.ID, "Address_City").get_attribute("value")
+                zip =  driver.find_element(By.ID, "Address_Zip").get_attribute("value")
+                fname =  driver.find_element(By.ID, "Owner_FirstName").get_attribute("value")
+                lname =  driver.find_element(By.ID, "Owner_LastName").get_attribute("value")
+                tele =  driver.find_element(By.ID, "Owner_PhoneNumber").get_attribute("value")
+                email =  driver.find_element(By.ID, "Owner_Email").get_attribute("value")
+                listicle = [(row[0], row[1], location, zip, fname, lname, tele, email)]
+                writero.writerow(listicle)
+                driver.back()
+        except NoSuchElementException:
+            print("errorNotFound")
+
     
-    try:
-        isqhec = driver.find_element(By.CSS_SELECTOR, ".even:nth-child(12) > td").text
-        if isqhec == "":
-            print("Good2Call")
-        else:
-            print(isqhec)
-    except NoSuchElementException:
-        print("errorNotFound")
+    f_object.close()
 
 
-
-
-# actions = ActionChains(driver)
-# actions.double_click(element).perform()
-
-# driver.quit()
+    # actions = ActionChains(driver)
+    # actions.double_click(element).perform()
+    # driver.quit()
