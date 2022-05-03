@@ -1,6 +1,11 @@
 import pytest
 import time
 import json
+# from pandas import *
+import os
+import csv
+import time
+import pprint
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.action_chains import ActionChains
@@ -9,49 +14,33 @@ from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 
-
 driver = webdriver.Chrome()
 driver.set_window_size(1570, 882)
-# Test name: search4
+# Test name: search4qhec
 # Step # | name | target | value
-# 1 | open | /Account/LogOn?returnUrl=%2F |
 driver.get("https://potomac.buildingperformance.com/Account/LogOn?returnUrl=%2F")
-# 2 | setWindowSize | 1270x82 |
-
-inputElement = driver.find_element_by_id("username")
-inputElement.send_keys('melissap0303@gmail.com')
-
-inputElement = driver.find_element_by_id("password")
-inputElement.send_keys('')
-
-# 10 | click | id=loginSubmit |
+inputElement = driver.find_element_by_id("username").send_keys('melissap0303@gmail.com')
+inputElement = driver.find_element_by_id("password").send_keys('')
 driver.find_element_by_id("loginSubmit").click()
-
-# 11 | click | linkText=Create Job and Validate Customer |
 driver.find_element_by_link_text("Create Job and Validate Customer").click()
 
-# 12 | click | id=SERV_ADDR_HOUSE_NUM |
-numElement = driver.find_element_by_id("SERV_ADDR_HOUSE_NUM")
-numElement.send_keys('6602')
+file = open(os.path.join('./', 'potomac.csv'), "rU")
+reader = csv.reader(file, delimiter=',')
+for row in reader:
+    # print(row[0])
+    # print(row[1])
+    numElement = driver.find_element_by_id("SERV_ADDR_HOUSE_NUM").send_keys(row[0])
+    addrElement = driver.find_element_by_id("SERV_ADDR_STREET_NAME").send_keys(row[1])
+    driver.find_element(By.CSS_SELECTOR, ".c-btn").click()
+    isqhec = driver.find_element(By.CSS_SELECTOR, ".even:nth-child(12) > td").text
+    print(isqhec)
 
-# 14 | click | id=SERV_ADDR_STREET_NAME |
-addrElement = driver.find_element_by_id("SERV_ADDR_STREET_NAME")
-addrElement.send_keys('coldstream')
+    time.sleep(4)
 
-# 16 | click | css=.c-btn | click submit
-driver.find_element(By.CSS_SELECTOR, ".c-btn").click()
 
-# 17 Grab Used or Not
-driver.find_element(By.CSS_SELECTOR, ".even:nth-child(12) > td").click()
 
-# # 17 | click | css=.data-column-head > th:nth-child(2) |
-# driver.find_element(By.CSS_SELECTOR, ".data-column-head > th:nth-child(2)").click()
-# # 18 | click | css=.data-column-head > th:nth-child(2) |
-# driver.find_element(By.CSS_SELECTOR, ".data-column-head > th:nth-child(2)").click()
-# # 19 | doubleClick | css=.data-column-head > th:nth-child(2) |
-# element = driver.find_element(By.CSS_SELECTOR, ".data-column-head > th:nth-child(2)")
 
-actions = ActionChains(driver)
-actions.double_click(element).perform()
+# actions = ActionChains(driver)
+# actions.double_click(element).perform()
 
 # driver.quit()
