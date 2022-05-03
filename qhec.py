@@ -55,7 +55,8 @@ with open('results.csv', 'a', newline='') as f_object:
                 lname =  driver.find_element(By.ID, "Owner_LastName").get_attribute("value")
                 tele =  driver.find_element(By.ID, "Owner_PhoneNumber").get_attribute("value")
                 email =  driver.find_element(By.ID, "Owner_Email").get_attribute("value")
-                listicle = [(row[0], row[1], location, zip, fname, lname, tele, email)]
+                # listicle = [(row[0], row[1], location, zip, fname, lname, tele, email)]
+                listicle = [(row[0], row[1], location, fname, lname, tele)]
                 writero.writerow(listicle)
                 driver.back()
             else:
