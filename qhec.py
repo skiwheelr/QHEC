@@ -15,7 +15,7 @@ from selenium.webdriver.support import expected_conditions
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
-from selenium.common.exceptions import NoSuchElementException        
+from selenium.common.exceptions import NoSuchElementException
 
 driver = webdriver.Chrome()
 driver.set_window_size(1570, 882)
@@ -23,13 +23,14 @@ driver.set_window_size(1570, 882)
 # Step # | name | target | value
 driver.get("https://potomac.buildingperformance.com/Account/LogOn?returnUrl=%2F")
 inputElement1 = driver.find_element(By.ID,"username").send_keys('melissap0303@gmail.com')
-inputElement2 = driver.find_element(By.ID,"password").send_keys('')
+inputElement2 = driver.find_element(By.ID,"password").send_keys('Reddz123')
 driver.find_element(By.ID,"loginSubmit").click()
 driver.find_element(By.LINK_TEXT,"Create Job and Validate Customer").click()
 input = sys.argv[1]
 file = open(os.path.join('./', input), "r")
 reader = csv.reader(file, delimiter=',')
-with open('results.csv', 'a', newline='') as f_object:  
+#make new file save based on sourceFilename_results.csv
+with open('results.csv', 'a', newline='') as f_object:
     writero = csv.writer(f_object, delimiter=',')
     for row in reader:
         # print(row[0])
@@ -40,7 +41,7 @@ with open('results.csv', 'a', newline='') as f_object:
         addrElement = driver.find_element(By.ID,"SERV_ADDR_STREET_NAME")
         addrElement.clear()
         addrElement.send_keys(row[1])
-        driver.find_element(By.CSS_SELECTOR,".c-btn").click() 
+        driver.find_element(By.CSS_SELECTOR,".c-btn").click()
         try:
             isqhec = driver.find_element(By.CSS_SELECTOR, ".even:nth-child(12) > td").text
             if isqhec == "":
@@ -67,5 +68,5 @@ with open('results.csv', 'a', newline='') as f_object:
     # actions = ActionChains(driver)
     # actions.double_click(element).perform()
     # driver.quit()
-    
+
     #to put in production mode, move lines 47-59 to below line 44
