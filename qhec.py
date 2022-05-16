@@ -23,14 +23,15 @@ driver.set_window_size(1570, 882)
 # Step # | name | target | value
 driver.get("https://potomac.buildingperformance.com/Account/LogOn?returnUrl=%2F")
 inputElement1 = driver.find_element(By.ID,"username").send_keys('melissap0303@gmail.com')
-inputElement2 = driver.find_element(By.ID,"password").send_keys('Reddz123')
+inputElement2 = driver.find_element(By.ID,"password").send_keys('')
 driver.find_element(By.ID,"loginSubmit").click()
 driver.find_element(By.LINK_TEXT,"Create Job and Validate Customer").click()
 input = sys.argv[1]
 file = open(os.path.join('./', input), "r")
 reader = csv.reader(file, delimiter=',')
+outfile = sys.argv[2]
 #make new file save based on sourceFilename_results.csv
-with open('results.csv', 'a', newline='') as f_object:
+with open(outfile, 'a+', newline='') as f_object:
     writero = csv.writer(f_object, delimiter=',')
     for row in reader:
         # print(row[0])
