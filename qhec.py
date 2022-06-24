@@ -22,8 +22,10 @@ driver.set_window_size(1570, 882)
 # Test name: search4qhec
 # Step # | name | target | value
 driver.get("https://potomac.buildingperformance.com/Account/LogOn?returnUrl=%2F")
-inputElement1 = driver.find_element(By.ID,"username").send_keys('melissap0303@gmail.com')
-inputElement2 = driver.find_element(By.ID,"password").send_keys('')
+# inputElement1 = driver.find_element(By.ID,"username").send_keys('melissap0303@gmail.com')
+# inputElement2 = driver.find_element(By.ID,"password").send_keys('Reddz123')
+inputElement1 = driver.find_element(By.ID,"username").send_keys('Ramsey@ramseysnider.com')
+inputElement2 = driver.find_element(By.ID,"password").send_keys('RSnider992')
 driver.find_element(By.ID,"loginSubmit").click()
 driver.find_element(By.LINK_TEXT,"Create Job and Validate Customer").click()
 input = sys.argv[1]
@@ -65,6 +67,8 @@ with open(outfile, 'a+', newline='') as f_object:
                 print(isqhec)
         except NoSuchElementException:
             print("errorNotFound")
+            listicle = [(row[0], row[1],"addrNotFound")]
+            writero.writerow(listicle)
     f_object.close()
     # actions = ActionChains(driver)
     # actions.double_click(element).perform()
